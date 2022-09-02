@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import ThemeModal from "./ThemeModal";
-import Link from "next/link";
 
 type Props = {};
 
@@ -48,9 +48,11 @@ export default function Navbar({}: Props) {
           </div>
         </div>
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-2xl" href="/vibe">
-            the<span className="text-primary">FEELS</span>
-          </a>
+          <Link href="/vibe">
+            <button className="btn btn-ghost normal-case text-2xl">
+              the<span className="text-primary">FEELS</span>
+            </button>
+          </Link>
         </div>
         <div className="flex-none gap-2">
           <div className="dropdown dropdown-end">
