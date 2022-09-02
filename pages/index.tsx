@@ -28,9 +28,9 @@ const Home: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ providers }) => {
   return (
-    <div className="flex flex-col h-screen justify-between">
+    <div data-theme="dark" className="flex flex-col h-screen justify-between">
       <header>
-        <div className="hero min-h-screen bg-base-200 hero-gradient">
+        <div className="hero min-h-screen bg-base-200 hero-gradient text-slate-50">
           <div className="hero-content flex-col lg:flex-row-reverse">
             <div className="text-center lg:text-left">
               <h1 className="text-5xl font-bold">Get Started Now</h1>
