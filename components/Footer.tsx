@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   const session = useSession();
@@ -9,14 +9,25 @@ export default function Footer() {
       <div></div>
       <div>
         <span className="footer-title">Explore</span>
-        <a className="link link-hover">Daily Vibe</a>
-        <a className="link link-hover">Timeline</a>
+        <Link className="link link-hover" href="/vibe">
+          Current Vibe
+        </Link>
+        <Link className="link link-hover" href="/timeline">
+          Timeline
+        </Link>
         {session.data && <a className="link link-hover">Sign Out</a>}
       </div>
       <div>
         <span className="footer-title">Follow Me</span>
-        <a className="link link-hover">Github</a>
-        <a className="link link-hover">LinkedIn</a>
+        <a className="link link-hover" href="https://github.com/thejustinwalsh">
+          Github
+        </a>
+        <a
+          className="link link-hover"
+          href="https://www.linkedin.com/in/justinwalsh/"
+        >
+          LinkedIn
+        </a>
       </div>
       <div>
         <span className="footer-title">Legal</span>
