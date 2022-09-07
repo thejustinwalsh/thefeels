@@ -3,7 +3,9 @@ import GithubProvider from "next-auth/providers/github";
 import FacebookProvider from "next-auth/providers/facebook";
 
 export const authOptions = {
-  pages: {},
+  pages: {
+    signIn: "/",
+  },
   providers: [
     FacebookProvider({
       clientId: process.env.FACEBOOK_ID!,

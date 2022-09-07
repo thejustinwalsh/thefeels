@@ -10,12 +10,12 @@ export default function Footer() {
       <div>
         <span className="footer-title">Explore</span>
         <Link className="link link-hover" href="/vibe">
-          Current Vibe
+          Current vibe
         </Link>
         <Link className="link link-hover" href="/timeline">
           Timeline
         </Link>
-        {session.data && <a className="link link-hover">Sign Out</a>}
+        {session.data && <a className="link link-hover">Sign out</a>}
       </div>
       <div>
         <span className="footer-title">Follow Me</span>

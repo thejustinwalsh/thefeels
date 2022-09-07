@@ -1,5 +1,4 @@
 import { NextPageWithLayout } from "./_app";
-import Image from "next/image";
 import Layout from "components/layout/Layout";
 import AuthLayout from "components/layout/AuthLayout";
 import CurrentVibe from "components/CurrentVibe";

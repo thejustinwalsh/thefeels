@@ -1,13 +1,13 @@
 import { ReactElement, ReactNode } from "react";
+import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { themeChange } from "theme-change";
 import useIsomorphicLayoutEffect from "hooks/useIsomorphicLayoutEffect";
-import { NextPage } from "next";
+import Layout from "components/layout/Layout";
 
 import "../styles/globals.css";
-import Layout from "components/layout/Layout";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

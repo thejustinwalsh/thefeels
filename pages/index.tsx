@@ -1,6 +1,7 @@
-import { NextPageWithLayout } from "./_app";
+import { useCallback } from "react";
 import { InferGetServerSidePropsType } from "next";
 import { getProviders, signIn } from "next-auth/react";
+import { NextPageWithLayout } from "./_app";
 import { hasKey } from "lib/utils";
 import Github from "components/icons/Github";
 import Facebook from "components/icons/Facebook";
@@ -27,8 +28,17 @@ export async function getServerSideProps() {
 const Home: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ providers }) => {
+  const callbackUrl = useCallback(
+    () =>
+      new URLSearchParams(window.location.search).get("callbackUrl") || "/vibe",
+    []
+  );
+
   return (
-    <div data-theme="dark" className="flex flex-col h-screen justify-between">
+    <div
+      data-theme="dracula"
+      className="flex flex-col h-screen justify-between"
+    >
       <header>
         <div className="hero min-h-screen bg-base-200 hero-gradient text-slate-50">
           <div className="hero-content flex-col lg:flex-row-reverse">
@@ -54,7 +64,9 @@ const Home: NextPageWithLayout<
                           }`,
                         }}
                         onClick={() =>
-                          signIn(provider.id, { callbackUrl: "/vibe" })
+                          signIn(provider.id, {
+                            callbackUrl: callbackUrl(),
+                          })
                         }
                       >
                         {hasKey(BUTTON_STYLES, provider.name) &&
