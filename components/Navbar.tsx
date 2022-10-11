@@ -3,15 +3,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import ThemeModal from "./ThemeModal";
+import ProfileModal from "./ProfileModal";
 
 type Props = {};
 
 export default function Navbar({}: Props) {
   const session = useSession();
+
   const [showSettings, setShowSettings] = useState(false);
   const toggleSettings = useCallback(() => {
     setShowSettings((settings) => !settings);
   }, []);
+
+  const [showProfile, setShowProfile] = useState(false);
+  const toggleProfile = useCallback(() => {
+    if (session.data?.user) {
+      setShowProfile((profile) => !profile);
+    }
+  }, [session.data]);
 
   return (
     <>
@@ -75,7 +84,9 @@ export default function Navbar({}: Props) {
               className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a>{session.data?.user?.name ?? "Not Signed In"}</a>
+                <a onClick={toggleProfile}>
+                  {session.data?.user?.name ?? "Not Signed In"}
+                </a>
               </li>
               <li>
                 <a onClick={toggleSettings}>Theme</a>
@@ -88,6 +99,12 @@ export default function Navbar({}: Props) {
         </div>
       </div>
       <ThemeModal isOpen={showSettings} onClose={toggleSettings} />
+      <ProfileModal
+        isOpen={showProfile}
+        onClose={toggleProfile}
+        name={session.data?.user?.name ?? ""}
+        email={session.data?.user?.email ?? ""}
+      />
     </>
   );
 }

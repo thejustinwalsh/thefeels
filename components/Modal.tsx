@@ -3,11 +3,12 @@ import Portal from "./util/Portal";
 
 type Props = {
   children?: React.ReactNode;
+  wide?: boolean;
   isOpen: boolean;
   onClose?: () => void;
 };
 
-export default function Modal({ children, isOpen, onClose }: Props) {
+export default function Modal({ children, wide, isOpen, onClose }: Props) {
   const handleClose = useCallback(() => onClose?.(), [onClose]);
 
   if (!isOpen) return null;
@@ -15,7 +16,11 @@ export default function Modal({ children, isOpen, onClose }: Props) {
   return (
     <Portal>
       <div className="modal modal-open">
-        <div className="modal-box relative w-11/12 max-w-5xl shadow-2xl">
+        <div
+          className={`modal-box relative shadow-2xl ${
+            wide ? "w-11/12 max-w-5xl" : ""
+          }`}
+        >
           <label
             className="btn btn-sm btn-circle absolute right-2 top-2"
             onClick={handleClose}
