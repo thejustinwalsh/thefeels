@@ -1,58 +1,11 @@
 import { useCallback } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
+import { endOfToday, format, fromUnixTime, startOfToday } from "date-fns";
+import useVibeQuery from "hooks/useVibeQuery";
+
 import type { Record as VibeRecord } from "pages/api/vibes";
 
-type Params = {
-  queryKey: [string, { start: number }, { end: number }];
-};
-
-type Result = {
-  averageVibe: {
-    contentedness: number;
-    anxiousness: number;
-    tiredness: number;
-  };
-  records: VibeRecord[];
-};
-
 export default function DailyVibe() {
-  const start = Math.floor(new Date().setHours(0, 0, 0, 0) / 1000);
-  const end = Math.floor(new Date().setHours(23, 59, 59, 0) / 1000);
-
-  const vibeQuery = useQuery(
-    ["vibes", { start }, { end }],
-    async (params: Params) => {
-      const [, { start }, { end }] = params.queryKey;
-      const result = await fetch(`/api/vibes?start=${start}&end=${end}`);
-      const { results: records } = (await result.json()) as {
-        results: VibeRecord[];
-      };
-
-      const data: Result = {
-        averageVibe: {
-          contentedness: 0,
-          anxiousness: 0,
-          tiredness: 0,
-        },
-        records: [],
-      };
-
-      if (records.length) {
-        const total = records.length;
-        data.averageVibe.contentedness =
-          records.reduce((acc, cur) => acc + cur.contentedness, 0) / total;
-        data.averageVibe.anxiousness =
-          records.reduce((acc, cur) => acc + cur.anxiousness, 0) / total;
-        data.averageVibe.tiredness =
-          records.reduce((acc, cur) => acc + cur.tiredness, 0) / total;
-        data.records = records;
-      }
-
-      console.log(data);
-      return data;
-    }
-  );
+  const vibeQuery = useVibeQuery(startOfToday(), endOfToday());
 
   const vibeColor = useCallback((record: VibeRecord) => {
     const max = Math.max(
@@ -73,6 +26,11 @@ export default function DailyVibe() {
     return "";
   }, []);
 
+  const data =
+    vibeQuery.data && vibeQuery.data.results.length > 0
+      ? vibeQuery.data?.results[0]
+      : undefined;
+
   return (
     <div className="card bg-base-200 shadow-xl my-8">
       <div className="card-body not-prose">
@@ -82,7 +40,7 @@ export default function DailyVibe() {
             <label className="pr-2">😊</label>
             <progress
               className="progress progress-primary shadow-sm"
-              value={vibeQuery.data?.averageVibe.contentedness ?? 0}
+              value={data?.average.contentedness ?? 0}
               max="100"
             ></progress>
           </div>
@@ -90,7 +48,7 @@ export default function DailyVibe() {
             <label className="pr-2">😳</label>
             <progress
               className="progress progress-secondary shadow-sm"
-              value={vibeQuery.data?.averageVibe.anxiousness ?? 0}
+              value={data?.average.anxiousness ?? 0}
               max="100"
             ></progress>
           </div>
@@ -98,20 +56,20 @@ export default function DailyVibe() {
             <label className="pr-2">😴</label>
             <progress
               className="progress progress-accent shadow-sm"
-              value={vibeQuery.data?.averageVibe.tiredness ?? 0}
+              value={data?.average.tiredness ?? 0}
               max="100"
             ></progress>
           </div>
         </div>
         <div className="flex flex-col prose">
-          {vibeQuery.data?.records.map((record) => (
-            <div key={record.id} className="flex flex-grow pb-2">
+          {data?.entries.map((entry) => (
+            <div key={entry.id} className="flex flex-grow pb-2">
               <p
-                className={`flex-none w-24 font-extrabold ${vibeColor(record)}`}
+                className={`flex-none w-24 font-extrabold ${vibeColor(entry)}`}
               >
-                {format(new Date((record.id || 0) * 1000), "h:mm a")}
+                {format(fromUnixTime(entry.id), "h:mm a")}
               </p>
-              <p className="grow">{record.thoughts}</p>
+              <p className="grow">{entry.thoughts}</p>
             </div>
           ))}
         </div>
