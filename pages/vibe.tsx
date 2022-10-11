@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from "./_app";
 import Layout from "components/layout/Layout";
-import AuthLayout from "components/layout/AuthLayout";
+import PageLayout from "components/layout/PageLayout";
 import CurrentVibe from "components/CurrentVibe";
 import DailyVibe from "components/DailyVibe";
 
@@ -16,7 +16,7 @@ const Vibe: NextPageWithLayout = () => {
 Vibe.getLayout = function getLayout(page) {
   return (
     <Layout>
-      <AuthLayout>{page}</AuthLayout>
+      <PageLayout>{page}</PageLayout>
     </Layout>
   );
 };

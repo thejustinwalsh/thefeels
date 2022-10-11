@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
 
@@ -6,7 +5,7 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export default function AuthLayout({ children }: Props) {
+export default function PageLayout({ children }: Props) {
   return (
     <div className="flex flex-col h-screen justify-between">
       <header>
