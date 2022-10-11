@@ -31,8 +31,12 @@ export default function Footer() {
       </div>
       <div>
         <span className="footer-title">Legal</span>
-        <a className="link link-hover">Terms of use</a>
-        <a className="link link-hover">Privacy policy</a>
+        <Link className="link link-hover" href="/terms">
+          Terms of service
+        </Link>
+        <Link className="link link-hover" href="/privacy">
+          Privacy policy
+        </Link>
       </div>
     </footer>
   );
